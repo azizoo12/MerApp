@@ -6,17 +6,31 @@ const AuthPage = () => {
   const [password, setPassword] = useState('');
   const history = useHistory();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-
-    // Basic authentication 
-    if (username === 'demo' && password === 'password') {
-      // Redirect to the main Taskify 
-      history.push('/taskify');
-    } else {
-      alert('Invalid username or password. Please try again.');
+  
+    try {
+      const response = await fetch('http://localhost:5000/api/authenticate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      if (response.ok) {
+        // Redirect to the main Taskify app upon successful login
+        history.push('/taskify');
+      } else {
+        const data = await response.json();
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred. Please try again.');
     }
   };
+  ;
 
   return (
     <div className='container'>
