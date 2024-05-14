@@ -45,7 +45,3 @@ app.post('/api/authenticate', async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-connectDB();
-app.use(req,res)=>{
-    res.send("App is running")
- }
